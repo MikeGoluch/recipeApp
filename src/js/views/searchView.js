@@ -21,6 +21,30 @@ export const displayListResults = (recipes) => {
     });
 };
 
+export const clearResults = () => {
+    document.querySelector('.results__list').innerHTML = "";
+}
+
+export const clearInputField = () => {
+    document.querySelector('.search__field').value = "";
+}
+
+export const displayLoader = () => {
+    const markup = `
+        <div class="loader">
+            <svg>
+                <use xlink:href="./img/icons.svg#icon-cw"></use>
+            </svg>
+        </div>
+    `;
+    document.querySelector('.results').insertAdjacentHTML('afterbegin', markup);
+}
+
+export const clearLoader = () => {
+    const parent = document.querySelector('.results');
+    const child = document.querySelector('.loader');
+    parent.removeChild(child);
+}
 
 const shortenTheTitle = (text, limit = 17) => {
     let array = [];
