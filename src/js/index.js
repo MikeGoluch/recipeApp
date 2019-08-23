@@ -1,5 +1,5 @@
 import Search from './models/Search';
-import { displayListResults, clearResults, clearInputField, displayLoader, clearLoader } from './views/searchView';
+import { displayListResults, clearResults, clearInputField, displayLoader, clearLoader, displayBtn } from './views/searchView';
 
 
 let store = {};
@@ -21,6 +21,7 @@ const searchController = async (input) => {
     displayLoader();
     await store.search.searchRecipe();
     clearLoader();
-    console.log(store.search.results);
+    // console.log(store.search.results);
     displayListResults(store.search.results);
+    // displayBtn();
 }

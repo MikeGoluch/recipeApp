@@ -15,10 +15,13 @@ const renderResults = (recipes) => {
     document.querySelector('.results__list').insertAdjacentHTML('beforeend', markup);
 };
 
-export const displayListResults = (recipes) => {
-    recipes.forEach(el => {
+export const displayListResults = (recipes, curPage = 1, resPerPage = 10) => {
+    const begin = (curPage - 1) * resPerPage;
+    const end = curPage * resPerPage;
+    recipes.slice(begin, end).forEach(el => {
         renderResults(el);
     });
+    displayBtn(recipes, curPage, resPerPage);
 };
 
 export const clearResults = () => {
@@ -60,4 +63,34 @@ const shortenTheTitle = (text, limit = 17) => {
         return `${array.join(' ')} ...`;
     }
     return text;
+}
+
+const createBtn = (curPage, btnType) => {
+    const btn = `
+            <button class="btn-inline results__btn--${btnType}">
+                <span>Page ${btnType === 'prev' ? curPage - 1 : curPage + 1}</span>
+                <svg class="search__icon">
+                    <use href="img/icons.svg#icon-triangle-${btnType === 'prev' ? 'left' : 'right'}"></use>
+                </svg>
+            </button>
+    `;
+
+    return btn;
+}
+
+const displayBtn = (recipes, curPage, resPerPage ) => {
+    const totalPages = Math.ceil(recipes.length / resPerPage);
+    let btn;
+    //pierwsza strona --> przycisk na drugą stronę
+    if (totalPages > 1 && curPage === 1) {
+        btn = createBtn(curPage, 'next');
+    } else if (curPage < totalPages) {
+        btn = `
+            ${createBtn(curPage, 'prev')}
+            ${createBtn(curPage, 'next')}
+        `;
+    } else if (totalPages > 1 && curPage === totalPages) {
+        btn = createBtn(curPage, 'prev');
+    }
+    document.querySelector('.results__pages').insertAdjacentHTML('beforeend', btn);
 }
