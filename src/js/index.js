@@ -1,5 +1,5 @@
 import Search from './models/Search';
-import { displayListResults, clearResults, clearInputField, displayLoader, clearLoader, displayBtn } from './views/searchView';
+import { displayListResults, clearResults, clearInputField, displayLoader, clearLoader, displayBtn, clearBtnResults } from './views/searchView';
 
 
 let store = {};
@@ -23,5 +23,13 @@ const searchController = async (input) => {
     clearLoader();
     // console.log(store.search.results);
     displayListResults(store.search.results);
-    // displayBtn();
+    // displayBtn(store.search.results,);
 }
+
+document.querySelector('.results__pages').addEventListener('click', e => {
+    const btnCLick = e.target.closest('.btn-inline');
+    const nextPage = parseInt(btnCLick.dataset.nextpage);
+    clearResults();
+    clearBtnResults();
+    displayListResults(store.search.results, nextPage);
+});

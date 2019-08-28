@@ -32,6 +32,10 @@ export const clearInputField = () => {
     document.querySelector('.search__field').value = "";
 }
 
+export const clearBtnResults = () => {
+    document.querySelector('.results__pages').innerHTML = "";
+}
+
 export const displayLoader = () => {
     const markup = `
         <div class="loader">
@@ -67,7 +71,7 @@ const shortenTheTitle = (text, limit = 17) => {
 
 const createBtn = (curPage, btnType) => {
     const btn = `
-            <button class="btn-inline results__btn--${btnType}">
+            <button class="btn-inline results__btn--${btnType}" data-nextpage="${btnType === 'prev' ? curPage - 1 : curPage + 1}">
                 <span>Page ${btnType === 'prev' ? curPage - 1 : curPage + 1}</span>
                 <svg class="search__icon">
                     <use href="img/icons.svg#icon-triangle-${btnType === 'prev' ? 'left' : 'right'}"></use>
@@ -78,7 +82,7 @@ const createBtn = (curPage, btnType) => {
     return btn;
 }
 
-const displayBtn = (recipes, curPage, resPerPage ) => {
+export const displayBtn = (recipes, curPage, resPerPage ) => {
     const totalPages = Math.ceil(recipes.length / resPerPage);
     let btn;
     //pierwsza strona --> przycisk na drugą stronę
