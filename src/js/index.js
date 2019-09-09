@@ -1,5 +1,7 @@
 import Search from './models/Search';
+import Recipe from './models/Recipe';
 import { displayListResults, clearResults, clearInputField, displayLoader, clearLoader, displayBtn, clearBtnResults } from './views/searchView';
+import { recipeMarkup, displayIngredients, clearRecipeResults } from './views/searchRecipe';
 
 
 let store = {};
@@ -32,4 +34,24 @@ document.querySelector('.results__pages').addEventListener('click', e => {
     clearResults();
     clearBtnResults();
     displayListResults(store.search.results, nextPage);
+});
+
+const recipeController = async (id) => {
+    store.recipe = new Recipe(id);
+    displayLoader();
+    await store.recipe.getRecipe();
+    clearLoader();
+    recipeMarkup(store.recipe);
+    console.log(store.recipe);
+    // clearRecipeResults();
+    displayIngredients(store.recipe);
+
+};
+
+// const detailedRecipe = new Recipe(47032);
+// detailedRecipe.getRecipe();
+
+window.addEventListener('hashchange', () => {
+    console.log(window.location.hash);
+    recipeController(window.location.hash.substring(1));
 });
