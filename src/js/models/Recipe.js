@@ -18,11 +18,13 @@ export default class Recipe {
             this.publisher = recipe.data.recipe.publisher;
             this.title = recipe.data.recipe.title;
 
-            // this.results = recipe.data.recipes;
             console.log(recipe);
-            // console.log(this.results);
         } catch(err) {
             alert(err);
         }
+    }
+
+    calcServings() {
+        this.servingsCount = 1;
     }
 }

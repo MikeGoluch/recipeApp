@@ -16,8 +16,6 @@ document.querySelector('.search').addEventListener('submit', e => {
     
 });
 
-    // console.log(inputFieldVal);
-
 const searchController = async (input) => {
     store.search = new Search(input);
     displayLoader();
@@ -41,17 +39,27 @@ const recipeController = async (id) => {
     displayLoader();
     await store.recipe.getRecipe();
     clearLoader();
+    clearRecipeResults();
+    store.recipe.calcServings();
     recipeMarkup(store.recipe);
     console.log(store.recipe);
-    // clearRecipeResults();
     displayIngredients(store.recipe);
 
 };
-
-// const detailedRecipe = new Recipe(47032);
-// detailedRecipe.getRecipe();
 
 window.addEventListener('hashchange', () => {
     console.log(window.location.hash);
     recipeController(window.location.hash.substring(1));
 });
+
+document.querySelector('.recipe').addEventListener('click', (e) => {
+    let servings = parseInt(document.querySelector('.recipe__info-data--people').textContent, 10);
+    console.log('test1',servings);
+    const btnMinus = e.target.closest('.btn-minus');
+    const btnPlus = e.target.closest('.btn-plus');
+    if (btnPlus) {
+        document.querySelector('.recipe__info-data--people').innerHTML = String(servings + 1);
+    } else if (btnMinus && servings > 1) {
+        document.querySelector('.recipe__info-data--people').innerHTML = String(servings - 1);
+    }
+})

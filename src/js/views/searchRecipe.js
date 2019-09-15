@@ -18,16 +18,16 @@ export const recipeMarkup = (recipe) => {
             <svg class="recipe__info-icon">
                 <use href="img/icons.svg#icon-man"></use>
             </svg>
-            <span class="recipe__info-data recipe__info-data--people">4</span>
+            <span class="recipe__info-data recipe__info-data--people">${recipe.servingsCount}</span>
             <span class="recipe__info-text"> servings</span>
 
             <div class="recipe__info-buttons">
-                <button class="btn-tiny">
+                <button class="btn-tiny btn-minus">
                     <svg>
                         <use href="img/icons.svg#icon-circle-with-minus"></use>
                     </svg>
                 </button>
-                <button class="btn-tiny">
+                <button class="btn-tiny btn-plus">
                     <svg>
                         <use href="img/icons.svg#icon-circle-with-plus"></use>
                     </svg>
@@ -73,37 +73,20 @@ const ingredientsList = (amount = "", ingredient) => {
     document.querySelector('.recipe__ingredient-list').insertAdjacentHTML('beforeend', markup);
 }
 
-// const decimalNumber = (number) => {
-//     const split = number.split('/');
-//     if (split[1] > 0) {
-//         const result = split[0] / split[1];
-//         return parseFloat(result.toFixed(2));
-//     }
-// }
-
 export const displayIngredients = (recipe) => {
-    // recipe.ingredients.forEach( el => {
-    //     ingredientsList(el);
-    //     // console.log(el);
-    // });
-    // console.log(recipe.ingredients);
     recipe.ingredients.map(el => {
-        // console.log(el[0]);
         if (!isNaN(parseInt(el[0]))) {
             const parts = el.split(' ');
             let [firstEl, restEl] = [parts[0], parts.slice(1).join(' ')];
             const split = firstEl.split('/');
             if (split.length > 1) {
                 firstEl = parseFloat((split[0] / split[1]).toFixed(2));
-                // console.log(parseFloat((split[0] / split[1]).toFixed(2)));
             } else {
                 firstEl = parseInt(split[0]);
-                // console.log(parseInt(split[0]));
             }
             ingredientsList(firstEl, restEl)
         } else {
             ingredientsList(undefined, el);
-            console.log(el);
         }
       });
 };
@@ -112,7 +95,6 @@ export const clearRecipeResults = () => {
     document.querySelector('.recipe').innerHTML = "";
 };
 
-let array = ['1/4 spoons of sugar', 'Olive oil with butter', '1 3/4 tablespoons of wheat'];
 
 
 
